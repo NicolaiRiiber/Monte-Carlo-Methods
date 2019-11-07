@@ -4,10 +4,12 @@ import numpy as np
 def BSuao(spot, strike, barrier, volatility, rate, maturity, nPaths):
 
     """
+    ----------------------------
     Description:
     This function calculates the price of a european up-and-out barrier option
     using Monte Carlo simulation in a Black-Scholes model.
-
+    ----------------------------
+    
     Input:
     @param spot: the current price of the underlying asset
     @strike: the strike price of the option
@@ -16,9 +18,11 @@ def BSuao(spot, strike, barrier, volatility, rate, maturity, nPaths):
     @rate: the risk free interest rate
     @maturity: the expiry date of the option
     @nPaths: number of simulated paths
-
+    ----------------------------
+    
     Return:
     A list containing a vector of payoffs and a variable containing the sum of payoffs.
+    ----------------------------
     """
 
     ### Convert all input parameters to tensors.
