@@ -73,19 +73,19 @@ def up_and_out_BS_AVCV_AAD(spot, strike, barrier, volatility, rate, maturity, nP
     max_st_AV = torch.max(AV_paths, dim=1)
     for i in range(0, nPaths):
         if max_st[0][i] > barrier + smoothing_spread:
-            alive[i,] = 0.0
+            alive[i, ] = 0.0
             continue
         if max_st[0][i] > barrier - smoothing_spread:
             # alive[i, ] = 1 / (1 + torch.exp(max_st[0][i] - barrier))
-            alive[i,] = ((barrier + smoothing_spread) - max_st[0][i]) / (2.0 * smoothing_spread)
+            alive[i, ] = ((barrier + smoothing_spread) - max_st[0][i]) / (2.0 * smoothing_spread)
             # continue
     for i in range(0, nPaths):
         if max_st_AV[0][i] > barrier + smoothing_spread:
-            AV_alive[i,] = 0.0
+            AV_alive[i, ] = 0.0
             continue
         if max_st_AV[0][i] > barrier - smoothing_spread:
             # AV_alive[i, ] = 1 / (1 + torch.exp(max_st_AV[0][i]) - barrier)
-            AV_alive[i,] = ((barrier + smoothing_spread) - max_st_AV[0][i]) / (2.0 * smoothing_spread)
+            AV_alive[i, ] = ((barrier + smoothing_spread) - max_st_AV[0][i]) / (2.0 * smoothing_spread)
             # continue
 
     ### Calculate the present value of future payoffs.
@@ -110,13 +110,14 @@ def up_and_out_BS_AVCV_AAD(spot, strike, barrier, volatility, rate, maturity, nP
     rho = gradient[3].detach().numpy()
 
     ### Perform a second backward sweep to calculate all second order greeks.
-    delta.backward(retain_graph=True)
-    gamma = spot.grad.detach().numpy()
-    delta = delta.detach().numpy()
+    #delta.backward(retain_graph=True)
+    #gamma = spot.grad.detach().numpy()
+    #delta = delta.detach().numpy()
 
-    return [price, delta, vega, theta, rho, gamma]
+    return [price, delta, vega, theta, rho]
 
 
 N = 25000
-% timeit data = up_and_out_BS_AVCV_AAD(100.0, 90.0, 140.0, 0.15, 0.05, 1.0, N)
-print(data)
+print(up_and_out_BS_AVCV_AAD(100.0, 90.0, 140.0, 0.15, 0.05, 0.25, N))
+
+
